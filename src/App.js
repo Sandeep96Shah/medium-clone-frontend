@@ -1,19 +1,13 @@
-import Header from "./components/Home/HeaderComponent";
-import BodyComponent from "./components/Home/BodyComponent";
-import Blog from "./components/Common/Blog";
-import { BlogContainer } from './commonStyles';
+import Home from "./Pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
-    <div>
-      <Header />
-      <BodyComponent />
-      <BlogContainer>
-        <Blog />
-        <Blog />
-        <Blog />
-      </BlogContainer>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

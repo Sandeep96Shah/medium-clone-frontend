@@ -37,7 +37,7 @@ export default function index() {
           </div>
         </div>
         <div className="post-image">
-          <img src={fullstack} alt="post-image" />
+          <img src={fullstack} alt="blog" />
         </div>
       </div>
       <div className="post-info">
