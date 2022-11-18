@@ -24,11 +24,13 @@ export const PostContainer = styled.div`
 
   .name p {
     font-weight: 500;
+    margin-bottom: 0px;
   }
 
   .published-on p {
     color: grey;
     font-weight: 400;
+    margin-bottom: 0px;
   }
 
   .description-container {
@@ -53,6 +55,7 @@ export const PostContainer = styled.div`
   .title p {
     font-size: 25px;
     font-weight: 500;
+    margin-bottom: 0px;
   }
   .brief {
     width: 90%;
@@ -66,6 +69,7 @@ export const PostContainer = styled.div`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin-bottom: 0px;
 }
 }
   }
@@ -86,8 +90,12 @@ export const PostContainer = styled.div`
     background-color: #f1f1f1;
     font-weight: 400;
   }
+  .category p {
+    margin-bottom: 0px;
+  }
   .estimated p {
     color: grey;
+    margin-bottom: 0px;
   }
 
   .save-list {

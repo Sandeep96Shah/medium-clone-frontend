@@ -17,6 +17,9 @@ export const BodyContainer = styled.div`
     font-size: 100px;
     font-family: gt-super, Georgia, Cambria, "Times New Roman", Times, serif;
   }
+  .title p {
+    margin-bottom: 0px;
+  }
   .brief p {
     font-size: 25px;
     width: 65%;

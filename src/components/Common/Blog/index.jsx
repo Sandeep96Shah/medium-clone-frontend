@@ -2,7 +2,7 @@ import React from "react";
 import { PostContainer } from "./styles";
 import avatar from "../../../assets/avatar.webp";
 import fullstack from "../../../assets/fullstack.jpg";
-import { FaBeer } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa";
 
 export default function index() {
   return (
@@ -50,7 +50,7 @@ export default function index() {
           </div>
         </div>
         <div className="save-list">
-          <FaBeer />
+          <FaRegBookmark />
         </div>
       </div>
     </PostContainer>
