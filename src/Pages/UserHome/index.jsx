@@ -4,6 +4,7 @@ import LeftSection from "../../components/UserLeftSection";
 import RightSection from "../../components/UserRightSection";
 import { Container, UserContainer } from "./styles";
 import Blog from '../../components/Common/Blog';
+import BottomSection from '../../components/UserBottomSection';
 
 export default function index() {
   return (
@@ -28,6 +29,7 @@ export default function index() {
         </Tabs>
       </Container>
       <RightSection />
+      <BottomSection />
     </UserContainer>
   );
 }
