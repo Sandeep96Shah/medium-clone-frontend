@@ -1,10 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
 import avatar from "../../../assets/avatar.webp";
 import fullstack from "../../../assets/fullstack.jpg";
 import { FaRegBookmark } from "react-icons/fa";
 
-export default function index() {
+export default function Index(props) {
+  const { id, name, date, title, category, description, estimated, brief } =
+    props || {};
+  const navigate = useNavigate();
+  const handleClick = () => {
+    console.log("props", props);
+    navigate("/blog-details", { state: { details: props } });
+  };
   return (
     <PostContainer>
       <div className="author">
@@ -12,28 +20,19 @@ export default function index() {
           <img src={avatar} alt="profile-pic" />
         </div>
         <div className="name">
-          <p>Sandeep Kumar Shah</p>
+          <p>{name}</p>
         </div>
         <div className="published-on">
-          <p>Nov20</p>
+          <p>{date}</p>
         </div>
       </div>
-      <div className="description-container">
+      <div className="description-container" onClick={handleClick}>
         <div className="description">
           <div className="title">
-            <p>FullStack Developer</p>
+            <p>{title}</p>
           </div>
           <div className="brief">
-            <p>
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before final copy is available.
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before final copy is available.
-            </p>
+            <p>{brief}</p>
           </div>
         </div>
         <div className="post-image">
@@ -43,10 +42,10 @@ export default function index() {
       <div className="post-info">
         <div className="category-estimated">
           <div className="category">
-            <p>FullStack Developer</p>
+            <p>{category}</p>
           </div>
           <div className="estimated">
-            <p>7 min read</p>
+            <p>{estimated}</p>
           </div>
         </div>
         <div className="save-list">

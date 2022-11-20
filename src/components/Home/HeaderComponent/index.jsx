@@ -5,7 +5,6 @@ import { HeaderContainer } from "./styles";
 export default function Header() {
   const [isWhiteBGColor, setIsWhiteBGColor] = useState(false);
   const changeBGColor = () => {
-    console.log(window.scrollY)
     if (window.scrollY >= 410) {
       setIsWhiteBGColor(true)
     } else {
@@ -17,7 +16,6 @@ export default function Header() {
     changeBGColor();
     window.addEventListener("scroll", changeBGColor)
   })
-  console.log(isWhiteBGColor)
   return (
     <HeaderContainer isWhiteBGColor={isWhiteBGColor}>
       <div className="logo">
