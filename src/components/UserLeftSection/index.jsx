@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { LeftSection } from "./styles";
 import logo from "../../assets/user-logo.png";
 import avatar from "../../assets/avatar.webp";
@@ -9,20 +10,30 @@ export default function index() {
   return (
     <LeftSection>
       <div className="logo">
-        <img src={logo} alt="Logo" />
+        <Link to="/user">
+          <img src={logo} alt="Logo" />
+        </Link>
       </div>
       <div className="options">
         <div className="home active">
-        <AiFillHome />
+          <Link to="/user">
+            <AiFillHome />
+          </Link>
         </div>
         <div className="saved">
-          <FaRegClone />
+          <Link>
+            <FaRegClone />
+          </Link>
         </div>
         <div className="posted">
+          <Link>
           <FaRegFileAlt />
+          </Link>
         </div>
         <div className="write">
-          <FaRegEdit />
+          <Link to="/create-blog">
+            <FaRegEdit />
+          </Link>
         </div>
       </div>
       <div className="user">
