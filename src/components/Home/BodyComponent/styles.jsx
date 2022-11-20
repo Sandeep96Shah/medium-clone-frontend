@@ -25,6 +25,7 @@ export const BodyContainer = styled.div`
     width: 65%;
     font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 24px;
+    margin-bottom: 0px;
   }
   .start-reading p {
     border: 1px solid black;
