@@ -15,6 +15,11 @@ export const LeftSection = styled.div`
   .logo {
     display: flex;
     justify-content: center;
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     img {
       width: 60%;
       height: 100px;
@@ -51,11 +56,14 @@ export const LeftSection = styled.div`
     height: 40px;
     width: 40px;
     img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: fill;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: fill;
     }
+  }
+  a {
+    color: grey;
   }
 
   @media screen and (max-width: ${breakpoints.laptop}px) {

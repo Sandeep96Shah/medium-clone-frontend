@@ -7,6 +7,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import LeftSection from "./components/UserLeftSection";
 import RightSection from "./components/UserRightSection";
 import BottomSection from "./components/UserBottomSection";
+import SavedBlogs from './Pages/SavedBlogs';
+import PostedBlogs from './Pages/PostedBlogs';
 
 const App = () => {
   const location = useLocation();
@@ -23,6 +25,8 @@ const App = () => {
           <Route exact path="/user" element={<UserHome />} />
           <Route exact path="/blog-details" element={<BlogDetails />} />
           <Route exact path="/create-blog" element={<CreateBlog />} />
+          <Route exact path="/saved-blogs" element={<SavedBlogs />} />
+          <Route exact path="/posted-blogs" element={<PostedBlogs />} />
         </Routes>
         {isLayout && <RightSection />}
         {isLayout && <BottomSection />}
