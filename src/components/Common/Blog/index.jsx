@@ -18,16 +18,17 @@ const Index = (props) => {
     image,
     user,
     saveBlogRequestFn,
+    currentUser,
   } = props || {};
   const { name, avatar } = user || {};
   const navigate = useNavigate();
   const handleClick = () => {
-    console.log("props", props);
-    navigate("/blog-details", { state: { details: props } });
+    console.log('props*******', props)
+    navigate(`/blog-details/${id}`, { state: { details: props } });
   };
 
   const handleSaveBlog = () => {
-    saveBlogRequestFn({ userId: user._id , blogId: id })
+    saveBlogRequestFn({ userId: currentUser, blogId: id });
   }
   return (
     <PostContainer>
@@ -74,4 +75,11 @@ const Index = (props) => {
   );
 }
 
-export default connect(null, {saveBlogRequestFn: saveBlogRequest})(Index);
+const mapStateToProps = (state) => {
+  const { blogsDetails } = state || {};
+  const {user} = blogsDetails || {};
+  const { _id: currentUser } = user || {};
+  return {currentUser,}
+}
+
+export default connect(mapStateToProps, {saveBlogRequestFn: saveBlogRequest})(Index);

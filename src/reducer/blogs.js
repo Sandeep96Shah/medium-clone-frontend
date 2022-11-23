@@ -1,4 +1,12 @@
-import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS, USER_DETAILS } from "../action/types";
+import {
+  SIGNIN,
+  SIGNUP,
+  CREATE_BLOG,
+  SAVE_BLOG,
+  ALL_BLOGS,
+  USER_DETAILS,
+  BLOG_DETAILS,
+} from "../action/types";
 
 const initialState = {
   user: {},
@@ -6,22 +14,23 @@ const initialState = {
   postedBlogs: [],
   following: [],
   blogs: [],
+  blogDetails: {},
 };
 
-// TODO add following features 
+// TODO add following features
 export default function blogs(state = initialState, action) {
   const { type, data } = action || {};
   switch (type) {
     case ALL_BLOGS:
-        return {
-            ...state,
-            blogs: data.blogs,
-        }
+      return {
+        ...state,
+        blogs: data.blogs,
+      };
     case USER_DETAILS:
       return {
         ...state,
         user: data.user,
-        savedBlogs: data.allSavedBlogs.blogs,
+        savedBlogs: data.allSavedBlogs?.blogs || [],
         postedBlogs: data.allPostedBlogs.blogs,
         blogs: data.allBlogs,
       };
@@ -35,7 +44,12 @@ export default function blogs(state = initialState, action) {
         ...state,
         savedBlogs: data.savedList.blogs,
       };
-      default: 
-        return state;
+    case BLOG_DETAILS:
+      return {
+        ...state,
+        blogDetails: data.blogDetails,
+      };
+    default:
+      return state;
   }
 }

@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { BlogDetails } from "./styles";
 import Divider from "../Common/Divider";
+import { getBlogDetails } from '../../action';
 
-export default function index(props) {
-  const { details } = props | {};
-  // console.log("props", props.details);
-  const { id, date, title, category, description, estimated, brief, user, image } =
-  props?.details || {};
-  const { name, avatar } = user || {};
+const Index = (props) => {
+  const { blogDetails } = props || {};
+  const { title, brief, description, image, category, estimated, user } = blogDetails || {};
+  const { name, avatar } = user || {}
+  const location = useLocation();
+  
+  useEffect(() => {
+  const { pathname } = location;
+  const blogId = pathname.substring(pathname.lastIndexOf('/') + 1);
+    props.dispatch(getBlogDetails({id: blogId}));
+  },[])
   return (
     <BlogDetails>
       <div className="user-info">
@@ -20,7 +28,7 @@ export default function index(props) {
             <p className="follow">Follow</p>
           </div>
           <div className="blog-time">
-            <p className="time">{date}</p>
+            <p className="time">27 Oct, 2022</p>
             <p className="read-time">{estimated}</p>
           </div>
         </div>
@@ -48,3 +56,11 @@ export default function index(props) {
     </BlogDetails>
   );
 }
+
+const mapStateToProps = (state) => {
+  const { blogsDetails } = state || {};
+  const { blogDetails } = blogsDetails || {};
+  return  {blogDetails};
+}
+
+export default connect(mapStateToProps)(Index);
