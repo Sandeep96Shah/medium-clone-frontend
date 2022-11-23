@@ -2,6 +2,7 @@ import React from "react";
 import { BodyContainer } from "./styles";
 
 export default function index() {
+  localStorage.setItem('selectedOption', 'home');
   return (
     <BodyContainer>
       <div className="container">

@@ -1,16 +1,34 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
 import { FaRegBookmark } from "react-icons/fa";
+import { saveBlogRequest } from '../../../action';
 
-export default function Index(props) {
-  const { id, name, date, title, category, description, estimated, brief, image, avatar } =
-    props || {};
+const Index = (props) => {
+  const {
+    id,
+    date,
+    title,
+    category,
+    description,
+    estimated,
+    brief,
+    image,
+    user,
+    saveBlogRequestFn,
+  } = props || {};
+  const { name, avatar } = user || {};
   const navigate = useNavigate();
   const handleClick = () => {
     console.log("props", props);
     navigate("/blog-details", { state: { details: props } });
   };
+
+  const handleSaveBlog = () => {
+    saveBlogRequestFn({ userId: user._id , blogId: id })
+  }
   return (
     <PostContainer>
       <div className="author">
@@ -46,10 +64,14 @@ export default function Index(props) {
             <p>{estimated}min Read</p>
           </div>
         </div>
-        <div className="save-list">
-          <FaRegBookmark />
-        </div>
+        <Tooltip title="Save Post">
+          <div className="save-list" onClick={handleSaveBlog}>
+            <FaRegBookmark />
+          </div>
+        </Tooltip>
       </div>
     </PostContainer>
   );
 }
+
+export default connect(null, {saveBlogRequestFn: saveBlogRequest})(Index);

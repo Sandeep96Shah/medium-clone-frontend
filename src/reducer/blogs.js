@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS } from "../action/types";
+import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS, USER_DETAILS } from "../action/types";
 
 const initialState = {
   user: {},
@@ -17,12 +17,12 @@ export default function blogs(state = initialState, action) {
             ...state,
             blogs: data.blogs,
         }
-    case SIGNIN:
+    case USER_DETAILS:
       return {
         ...state,
         user: data.user,
-        savedBlogs: data.allSavedBlogs,
-        postedBlogs: data.allPostedBlogs,
+        savedBlogs: data.allSavedBlogs.blogs,
+        postedBlogs: data.allPostedBlogs.blogs,
         blogs: data.allBlogs,
       };
     case CREATE_BLOG:
@@ -33,7 +33,7 @@ export default function blogs(state = initialState, action) {
     case SAVE_BLOG:
       return {
         ...state,
-        savedBlogs: data.savedList,
+        savedBlogs: data.savedList.blogs,
       };
       default: 
         return state;

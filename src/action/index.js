@@ -1,9 +1,7 @@
-import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS } from "./types";
+import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS, USER_DETAILS } from "./types";
 import { APIUrls } from "../helper/apis";
 import { getFormBody, getAuthTokenFromLocalStorage } from "../helper/utils";
-import {
-  NotificationManager,
-} from "react-notifications";
+import { NotificationManager } from "react-notifications";
 
 export function allBlogs(data) {
   return {
@@ -64,12 +62,11 @@ export function createUser({ email, name, password, confirmPassword }) {
   };
 }
 
-
 export function userDetails(data) {
   return {
-    type: SIGNIN,
+    type: USER_DETAILS,
     data,
-  }
+  };
 }
 
 export function signinUser({ email, password, navigate }) {
@@ -90,10 +87,14 @@ export function signinUser({ email, password, navigate }) {
         const { status, message } = data || {};
         if (status === "success") {
           const { token } = data || {};
-          localStorage.setItem('token', token);
+          localStorage.setItem("token", token);
           //dispatch(userDetails(data));
-          navigate('/user');
-          NotificationManager.success('Welcome to world of knowledge', "Successful", 2000);
+          navigate("/user");
+          NotificationManager.success(
+            "Welcome to world of knowledge",
+            "Successful",
+            2000
+          );
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -116,10 +117,49 @@ export function getUserDetails() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
+        console.log("data111", data);
         const { status, message } = data || {};
         if (status === "success") {
           dispatch(userDetails(data));
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}
+
+export function saveBlog(data) {
+  return {
+    type: SAVE_BLOG,
+    data,
+  };
+}
+
+export function saveBlogRequest({ userId, blogId }) {
+  return (dispatch) => {
+    const url = APIUrls.saveBlog();
+    console.log("url", url);
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: getFormBody({ userId, blogId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        const { status, message } = data || {};
+        if (status === "success") {
+          dispatch(saveBlog(data));
+          NotificationManager.success(
+            "Blog saved!",
+            "Successful",
+            2000
+          );
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }

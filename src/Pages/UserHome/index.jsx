@@ -18,9 +18,8 @@ const Index = (props) => {
           <Tabs.TabPane tab="For You" key="1">
             {blogs.map((blog) => (
               <Blog
-                key={blog.id}
-                id={blog.id}
-                name={blog.user.name}
+                key={blog._id}
+                id={blog._id}
                 date={blog.date}
                 title={blog.title}
                 category={blog.category}
@@ -28,7 +27,7 @@ const Index = (props) => {
                 estimated={blog.estimated}
                 brief={blog.brief}
                 image={blog.image}
-                avatar={blog.user.avatar}
+                user={blog.user}
               />
             ))}
           </Tabs.TabPane>

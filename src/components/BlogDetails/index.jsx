@@ -1,13 +1,13 @@
 import React from "react";
 import { BlogDetails } from "./styles";
-import avatar from "../../assets/avatar.webp";
 import Divider from "../Common/Divider";
 
 export default function index(props) {
   const { details } = props | {};
   // console.log("props", props.details);
-  const { id, name, date, title, category, description, estimated, brief } =
+  const { id, date, title, category, description, estimated, brief, user, image } =
   props?.details || {};
+  const { name, avatar } = user || {};
   return (
     <BlogDetails>
       <div className="user-info">
@@ -30,7 +30,7 @@ export default function index(props) {
       </div>
       <Divider />
       <div className="image">
-        <img src={avatar} alt="blog-poster" />
+        <img src={image} alt="blog-poster" />
       </div>
       <Divider />
       <div className="brief">
