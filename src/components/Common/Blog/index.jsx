@@ -1,12 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
-import avatar from "../../../assets/avatar.webp";
-import fullstack from "../../../assets/fullstack.jpg";
 import { FaRegBookmark } from "react-icons/fa";
 
 export default function Index(props) {
-  const { id, name, date, title, category, description, estimated, brief } =
+  const { id, name, date, title, category, description, estimated, brief, image, avatar } =
     props || {};
   const navigate = useNavigate();
   const handleClick = () => {
@@ -36,7 +34,7 @@ export default function Index(props) {
           </div>
         </div>
         <div className="post-image">
-          <img src={fullstack} alt="blog" />
+          <img src={image} alt="blog" />
         </div>
       </div>
       <div className="post-info">
@@ -45,7 +43,7 @@ export default function Index(props) {
             <p>{category}</p>
           </div>
           <div className="estimated">
-            <p>{estimated}</p>
+            <p>{estimated}min Read</p>
           </div>
         </div>
         <div className="save-list">

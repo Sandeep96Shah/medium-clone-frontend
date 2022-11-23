@@ -9,6 +9,8 @@ import RightSection from "./components/UserRightSection";
 import BottomSection from "./components/UserBottomSection";
 import SavedBlogs from './Pages/SavedBlogs';
 import PostedBlogs from './Pages/PostedBlogs';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 const App = () => {
   const location = useLocation();
@@ -16,6 +18,7 @@ const App = () => {
   const isLayout = location.pathname !== "/";
   return (
     <>
+    <NotificationContainer />
       <Routes>
         <Route exact path="/" element={<Home />} />
       </Routes>
