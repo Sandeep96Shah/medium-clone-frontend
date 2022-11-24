@@ -182,7 +182,6 @@ export function getBlogDetails({  id }) {
         const { status, message } = data || {};
         if (status === "success") {
           dispatch(blogDetails(data));
-          console.log('data', data)
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -191,4 +190,33 @@ export function getBlogDetails({  id }) {
   };
 }
 
-
+export function createBlog({  formData, resetFields }) {
+  return (dispatch) => {
+    const url = APIUrls.createBlog();
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        //"Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { status, message } = data || {};
+        if (status === "success") {
+          //dispatch(blogDetails(data));
+          NotificationManager.success(
+            "Blog Posted!",
+            "Successful",
+            2000
+          );
+          resetFields();
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}

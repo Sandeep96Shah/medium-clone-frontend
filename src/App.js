@@ -14,7 +14,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const App = () => {
   const location = useLocation();
-  console.log("pathName", location.pathname);
   const isLayout = location.pathname !== "/";
   return (
     <>

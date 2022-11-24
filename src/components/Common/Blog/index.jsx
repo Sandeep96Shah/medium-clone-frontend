@@ -23,7 +23,6 @@ const Index = (props) => {
   const { name, avatar } = user || {};
   const navigate = useNavigate();
   const handleClick = () => {
-    console.log('props*******', props)
     navigate(`/blog-details/${id}`, { state: { details: props } });
   };
 

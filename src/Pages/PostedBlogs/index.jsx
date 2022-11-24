@@ -18,7 +18,7 @@ const Index = (props) => {
           {blogs.map((blog) => (
             <Blog
               key={blog.id}
-              id={blog.id}
+              id={blog._id}
               date={blog.date}
               title={blog.title}
               category={blog.category}
@@ -36,7 +36,6 @@ const Index = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state', state)
   const { blogsDetails } = state || {};
   const { postedBlogs } = blogsDetails || {};
   return {
