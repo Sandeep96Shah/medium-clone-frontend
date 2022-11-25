@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container } from "./styles";
 import { createBlog } from "../../action";
 import { getUserDetails } from "../../action";
 
 const Index = (props) => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [brief, setBrief] = useState("");
@@ -31,7 +33,12 @@ const Index = (props) => {
     dispatch(createBlog({ formData, resetFields }));
   };
   useEffect(() => {
-    dispatch(getUserDetails());
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+    } else {
+      dispatch(getUserDetails());
+    }
   }, []);
   return (
     <Container>

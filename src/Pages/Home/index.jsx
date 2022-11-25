@@ -4,7 +4,6 @@ import Header from "../../components/Home/HeaderComponent";
 import BodyComponent from "../../components/Home/BodyComponent";
 import Blog from "../../components/Common/Blog";
 import { BlogContainer } from "./styles";
-import { data } from "../../demo-data/index";
 import { fetchAllBlogs } from '../../action';
 
 const Index = (props) => {

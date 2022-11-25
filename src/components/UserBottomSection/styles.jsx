@@ -23,6 +23,13 @@ export const Container = styled.div`
       div {
         font-size: 20px;
       }
+      a {
+        color: grey;
+      }
+      .active {
+        box-shadow: 1px 7px 6px -7px black;
+        color: black;
+      }
     @media screen and (max-width: ${breakpoints.laptop}px) {
         display: flex;
       }

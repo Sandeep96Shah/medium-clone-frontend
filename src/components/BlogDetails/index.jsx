@@ -1,21 +1,28 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BlogDetails } from "./styles";
 import Divider from "../Common/Divider";
-import { getBlogDetails } from '../../action';
+import { getBlogDetails } from "../../action";
 
 const Index = (props) => {
   const { blogDetails } = props || {};
-  const { title, brief, description, image, category, estimated, user } = blogDetails || {};
-  const { name, avatar } = user || {}
+  const { title, brief, description, image, category, estimated, user } =
+    blogDetails || {};
+  const { name, avatar } = user || {};
   const location = useLocation();
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
-  const { pathname } = location;
-  const blogId = pathname.substring(pathname.lastIndexOf('/') + 1);
-    props.dispatch(getBlogDetails({id: blogId}));
-  },[])
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+    } else {
+      const { pathname } = location;
+      const blogId = pathname.substring(pathname.lastIndexOf("/") + 1);
+      props.dispatch(getBlogDetails({ id: blogId }));
+    }
+  }, []);
   return (
     <BlogDetails>
       <div className="user-info">
@@ -42,25 +49,21 @@ const Index = (props) => {
       </div>
       <Divider />
       <div className="brief">
-        <p>
-          {brief}
-        </p>
+        <p>{brief}</p>
       </div>
       <Divider />
       <div className="content">
-        <p>
-         {description}
-        </p>
+        <p>{description}</p>
       </div>
       <Divider />
     </BlogDetails>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   const { blogsDetails } = state || {};
   const { blogDetails } = blogsDetails || {};
-  return  {blogDetails};
-}
+  return { blogDetails };
+};
 
 export default connect(mapStateToProps)(Index);

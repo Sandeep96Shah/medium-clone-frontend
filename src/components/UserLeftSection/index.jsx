@@ -1,18 +1,38 @@
 import React, { useState } from "react";
-import { Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import { Tooltip, Dropdown, Space, Menu } from "antd";
+import { connect } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { LeftSection } from "./styles";
 import logo from "../../assets/user-logo.png";
-import avatar from "../../assets/avatar.webp";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegClone, FaRegEdit, FaRegFileAlt } from "react-icons/fa";
 
-export default function Index() {
-  const [selectedOption, setSelectedOption] = useState(localStorage.getItem('selectedOption'));
+const Index = (props) => {
+  const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState(
+    localStorage.getItem("selectedOption")
+  );
   const handleSelectedOption = (val) => {
     setSelectedOption(val);
-    localStorage.setItem('selectedOption', val);
+    localStorage.setItem("selectedOption", val);
   };
+  const { avatar } = props?.user || {};
+
+  const handleLogout = () => {
+    localStorage.setItem('token', '');
+    navigate('/');
+  }
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+       <p>Profile</p>
+      </Menu.Item>
+      <Menu.Item>
+        <p onClick={handleLogout}>Logout</p>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <LeftSection>
       <div className="logo" onClick={() => handleSelectedOption("home")}>
@@ -62,9 +82,24 @@ export default function Index() {
           </div>
         </Tooltip>
       </div>
-      <div className="user">
-        <img src={avatar} alt="poster" />
-      </div>
+      <Dropdown
+        overlay={menu}
+        placement="topRight"
+      >
+        <div className="user">
+          <img src={avatar} alt="poster" />
+        </div>
+      </Dropdown>
     </LeftSection>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  const { blogsDetails } = state || {};
+  const { user } = blogsDetails || {};
+  return {
+    user,
+  };
+};
+
+export default connect(mapStateToProps)(Index);

@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
 import { Container } from "./styles";
 import Blog from "../../components/Common/Blog";
-import { data } from "../../demo-data/index";
 import { getUserDetails } from '../../action';
 
 const Index = (props) => {
+  const navigate = useNavigate();
   const { blogs = [], dispatch } = props || {};
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+    } else {
     dispatch(getUserDetails());
+    }
   },[]);
   return (
     <Container>
