@@ -5,3 +5,4 @@ export const SAVE_BLOG = 'SAVE_BLOG';
 export const ALL_BLOGS = 'ALL_BLOGS';
 export const USER_DETAILS = 'USER_DETAILS';
 export const BLOG_DETAILS = 'BLOG_DETAILS';
+export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS';

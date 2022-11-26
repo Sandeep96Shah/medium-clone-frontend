@@ -7,5 +7,6 @@ export const APIUrls = {
     blogDetails: (id) => `${API_ROOT}/blog-details/${id}`,
     userDetails: () => `${API_ROOT}/user-details`,
     createBlog: () => `${API_ROOT}/create-blog`,
+    updateUserDetails: () => `${API_ROOT}/update-user`,
     saveBlog: () => `${API_ROOT}/save-blog`,
 }

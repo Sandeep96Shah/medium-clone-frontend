@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
 import { FaRegBookmark } from "react-icons/fa";
 import { saveBlogRequest } from '../../../action';
+import { NotificationManager } from "react-notifications";
 
 const Index = (props) => {
   const {
@@ -22,12 +23,21 @@ const Index = (props) => {
   } = props || {};
   const { name, avatar } = user || {};
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const handleClick = () => {
-    navigate(`/blog-details/${id}`, { state: { details: props } });
+    if(!token) {
+      NotificationManager.info("please SignIn to view blog", "Info", 3000);
+    }else{
+      navigate(`/blog-details/${id}`, { state: { details: props } });
+    }
   };
 
   const handleSaveBlog = () => {
-    saveBlogRequestFn({ userId: currentUser, blogId: id });
+    if(!token) {
+      NotificationManager.info("please SignIn to save blog", "Info", 3000);
+    }else{
+      saveBlogRequestFn({ userId: currentUser, blogId: id });
+    }
   }
   return (
     <PostContainer>

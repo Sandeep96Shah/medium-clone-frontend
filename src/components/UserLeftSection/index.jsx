@@ -1,40 +1,62 @@
 import React, { useState } from "react";
-import { Tooltip, Dropdown, Space, Menu } from "antd";
+import { Tooltip, Dropdown, Menu, Modal } from "antd";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LeftSection } from "./styles";
 import logo from "../../assets/user-logo.png";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegClone, FaRegEdit, FaRegFileAlt } from "react-icons/fa";
+import Update from "../../components/Form/update";
 
 const Index = (props) => {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(
     localStorage.getItem("selectedOption")
   );
+  const [isUpdate, setIsUpdate] = useState(false);
   const handleSelectedOption = (val) => {
     setSelectedOption(val);
     localStorage.setItem("selectedOption", val);
   };
-  const { avatar } = props?.user || {};
+  const { avatar, name } = props?.user || {};
 
   const handleLogout = () => {
-    localStorage.setItem('token', '');
-    navigate('/');
-  }
+    localStorage.setItem("token", "");
+    navigate("/");
+  };
+
+  // update modal methods
+  const showUpdateModal = () => {
+    setIsUpdate(true);
+  };
+  const handleUpdateOk = () => {
+    setIsUpdate(false);
+  };
+  const handleUpdateCancel = () => {
+    setIsUpdate(false);
+  };
 
   const menu = (
     <Menu>
       <Menu.Item>
-       <p>Profile</p>
+        <p onClick={showUpdateModal} className="dropdown-option">Profile</p>
       </Menu.Item>
       <Menu.Item>
-        <p onClick={handleLogout}>Logout</p>
+        <p onClick={handleLogout} className="dropdown-option">Logout</p>
       </Menu.Item>
     </Menu>
   );
   return (
     <LeftSection>
+      <Modal
+        title="Update"
+        visible={isUpdate}
+        onOk={handleUpdateOk}
+        onCancel={handleUpdateCancel}
+        footer={null}
+      >
+        <Update handleOk={handleUpdateOk} name={name} avatar={avatar} />
+      </Modal>
       <div className="logo" onClick={() => handleSelectedOption("home")}>
         <Link to="/user">
           <img src={logo} alt="Logo" />
@@ -82,10 +104,7 @@ const Index = (props) => {
           </div>
         </Tooltip>
       </div>
-      <Dropdown
-        overlay={menu}
-        placement="topRight"
-      >
+      <Dropdown overlay={menu} placement="topRight">
         <div className="user">
           <img src={avatar} alt="poster" />
         </div>

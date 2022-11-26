@@ -53,8 +53,9 @@ export default function Header() {
           onOk={handleSignUpOk}
           onCancel={handleSignUpCancel}
           footer={null}
+          width={400}
         >
-          <SignUp handleOk={handleSignUpOk} />
+          <SignUp handleOk={handleSignUpOk} showSignInModal={showSignInModal} />
         </Modal>
         <Modal
           title="SignIn Form"
@@ -62,8 +63,9 @@ export default function Header() {
           onOk={handleSignInOk}
           onCancel={handleSignInCancel}
           footer={null}
+          width={400}
         >
-          <SignIn handleOk={handleSignInOk} />
+          <SignIn handleOk={handleSignInOk} showSignUpModal={showSignUpModal} />
         </Modal>
         <div className="logo">
           <img src={logo} alt="logo" />

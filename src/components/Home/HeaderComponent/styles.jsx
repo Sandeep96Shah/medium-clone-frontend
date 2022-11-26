@@ -42,6 +42,12 @@ export const HeaderContainer = styled.div`
     padding: 0 2rem;
   }
 
+  @media screen and (max-width: ${breakpoints.tabletS}px ) {
+    .ant-modal {
+      width: 300px !important;
+    }
+  }
+
    @media screen and (max-width: ${breakpoints.mobileL}px ) {
     padding: 0 1rem;
     .sign-in {

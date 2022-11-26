@@ -3,16 +3,17 @@ import { connect } from "react-redux";
 import { Button, Form, Input } from "antd";
 import { signinUser } from "../../action";
 import { useNavigate } from "react-router-dom";
+import { Container } from "./styles";
 
 const SignUp = (props) => {
-  const { handleOk } = props;
+  const { handleOk, showSignUpModal } = props;
   const navigate = useNavigate();
   const onFinish = (values) => {
     props.dispatch(
-        signinUser({
+      signinUser({
         email: values.email,
         password: values.password,
-        navigate
+        navigate,
       })
     );
     handleOk();
@@ -20,50 +21,53 @@ const SignUp = (props) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  const handleSignUpmodal = () => {
+    showSignUpModal();
+    handleOk();
+  };
   return (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your email!",
-          },
-        ]}
+    <Container>
+      <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        <Input placeholder="Email" />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your email!",
+            },
+          ]}
+        >
+          <Input placeholder="Email" />
+        </Form.Item>
 
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your password!",
-          },
-        ]}
-      >
-        <Input.Password placeholder="Password" />
-      </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your password!",
+            },
+          ]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
 
-      <Button type="primary" htmlType="submit">
-        Sign In
-      </Button>
-    </Form>
+        <div className="signin-signup-button">
+          <Button type="primary" htmlType="submit">
+            Sign In
+          </Button>
+          <Button type="secondary" onClick={handleSignUpmodal}>
+            Sign Up
+          </Button>
+        </div>
+      </Form>
+    </Container>
   );
 };
 

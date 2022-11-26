@@ -1,4 +1,13 @@
-import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS, USER_DETAILS, BLOG_DETAILS } from "./types";
+import {
+  SIGNIN,
+  SIGNUP,
+  CREATE_BLOG,
+  SAVE_BLOG,
+  ALL_BLOGS,
+  USER_DETAILS,
+  BLOG_DETAILS,
+  UPDATE_USER_DETAILS,
+} from "./types";
 import { APIUrls } from "../helper/apis";
 import { getFormBody, getAuthTokenFromLocalStorage } from "../helper/utils";
 import { NotificationManager } from "react-notifications";
@@ -146,11 +155,7 @@ export function saveBlogRequest({ userId, blogId }) {
         const { status, message } = data || {};
         if (status === "success") {
           dispatch(saveBlog(data));
-          NotificationManager.success(
-            "Blog saved!",
-            "Successful",
-            2000
-          );
+          NotificationManager.success("Blog saved!", "Successful", 2000);
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -159,14 +164,14 @@ export function saveBlogRequest({ userId, blogId }) {
   };
 }
 
-export function blogDetails(data){
+export function blogDetails(data) {
   return {
     type: BLOG_DETAILS,
     data,
-  }
+  };
 }
 
-export function getBlogDetails({  id }) {
+export function getBlogDetails({ id }) {
   return (dispatch) => {
     const url = APIUrls.blogDetails(id);
     fetch(url, {
@@ -190,7 +195,7 @@ export function getBlogDetails({  id }) {
   };
 }
 
-export function createBlog({  formData, resetFields }) {
+export function createBlog({ formData, resetFields }) {
   return (dispatch) => {
     const url = APIUrls.createBlog();
     fetch(url, {
@@ -207,12 +212,43 @@ export function createBlog({  formData, resetFields }) {
         const { status, message } = data || {};
         if (status === "success") {
           //dispatch(blogDetails(data));
-          NotificationManager.success(
-            "Blog Posted!",
-            "Successful",
-            2000
-          );
+          NotificationManager.success("Blog Posted!", "Successful", 2000);
           resetFields();
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}
+
+function updateUser(data) {
+  return {
+    type: UPDATE_USER_DETAILS,
+    data,
+  };
+}
+
+export function updateUserDetails({ formData }) {
+  return (dispatch) => {
+    const url = APIUrls.updateUserDetails();
+    console.log("formData", formData);
+    console.log("url", url);
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        //"Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { status, message } = data || {};
+        if (status === "success") {
+          dispatch(updateUser(data));
+          NotificationManager.success("Profile Updated!", "Successful", 2000);
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }

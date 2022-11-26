@@ -6,6 +6,7 @@ import {
   ALL_BLOGS,
   USER_DETAILS,
   BLOG_DETAILS,
+  UPDATE_USER_DETAILS,
 } from "../action/types";
 
 const initialState = {
@@ -49,6 +50,11 @@ export default function blogs(state = initialState, action) {
         ...state,
         blogDetails: data.blogDetails,
       };
+    case UPDATE_USER_DETAILS: 
+      return {
+        ...state,
+        user: data.user,
+      }
     default:
       return state;
   }
