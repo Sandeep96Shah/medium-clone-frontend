@@ -86,4 +86,10 @@ p {
     color: grey;
     margin: 10px 0;
   }
+  .category {
+    background-color: #f1f1f1;
+    width: max-content;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
 `;

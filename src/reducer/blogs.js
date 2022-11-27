@@ -54,6 +54,7 @@ export default function blogs(state = initialState, action) {
       return {
         ...state,
         user: data.user,
+        blogs: data.blogs,
       }
     default:
       return state;

@@ -4,10 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { BlogDetails } from "./styles";
 import Divider from "../Common/Divider";
 import { getBlogDetails } from "../../action";
+import moment from 'moment';
 
 const Index = (props) => {
   const { blogDetails } = props || {};
-  const { title, brief, description, image, category, estimated, user } =
+  const { title, brief, description, image, category, estimated, user, createdAt } =
     blogDetails || {};
   const { name, avatar } = user || {};
   const location = useLocation();
@@ -32,13 +33,16 @@ const Index = (props) => {
         <div className="info">
           <div className="name-follow">
             <p className="name">{name}</p>
-            <p className="follow">Follow</p>
+            {/* <p className="follow">Follow</p> */}
           </div>
           <div className="blog-time">
-            <p className="time">27 Oct, 2022</p>
+            <p className="time">{moment(createdAt).format('Do MMM YY')}</p>
             <p className="read-time">{estimated}</p>
           </div>
         </div>
+      </div>
+      <div className="category">
+      <p>{category}</p>
       </div>
       <div className="title">
         <p>{title}</p>

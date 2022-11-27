@@ -5,6 +5,7 @@ import BodyComponent from "../../components/Home/BodyComponent";
 import Blog from "../../components/Common/Blog";
 import { BlogContainer } from "./styles";
 import { fetchAllBlogs } from '../../action';
+import moment from 'moment';
 
 const Index = (props) => {
   useEffect(() => {
@@ -20,10 +21,9 @@ const Index = (props) => {
           <Blog
             key={blog._id}
             id={blog._id}
-            date={blog.date}
+            date={moment(blog.createdAt).format('Do MMM YY')}
             title={blog.title}
             category={blog.category}
-            description={blog.description}
             estimated={blog.estimated}
             brief={blog.brief}
             image={blog.image}

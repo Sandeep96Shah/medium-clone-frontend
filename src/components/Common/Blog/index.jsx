@@ -13,7 +13,6 @@ const Index = (props) => {
     date,
     title,
     category,
-    description,
     estimated,
     brief,
     image,

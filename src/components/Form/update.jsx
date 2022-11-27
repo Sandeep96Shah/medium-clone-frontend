@@ -10,6 +10,7 @@ const Update = (props) => {
     const formData = new FormData();
     formData.append("avatar", fileList[0]);
     formData.append("user", user._id);
+    formData.append('name', values.name);
     dispatch(updateUserDetails({ formData }));
     handleOk();
   };

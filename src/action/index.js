@@ -232,8 +232,6 @@ function updateUser(data) {
 export function updateUserDetails({ formData }) {
   return (dispatch) => {
     const url = APIUrls.updateUserDetails();
-    console.log("formData", formData);
-    console.log("url", url);
     fetch(url, {
       method: "POST",
       mode: "cors",

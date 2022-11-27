@@ -11,7 +11,7 @@ const Index = (props) => {
   const [image, setImage] = useState("");
   const [brief, setBrief] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("React");
+  const [category, setCategory] = useState("");
   const { dispatch, user } = props;
 
   const resetFields = () => {
@@ -49,6 +49,15 @@ const Index = (props) => {
           placeholder="Title for your blog"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
+        />
+      </div>
+      <div className="category">
+        <input
+          type="text"
+          name="category"
+          placeholder="Category of your blog"
+          onChange={(e) => setCategory(e.target.value)}
+          value={category}
         />
       </div>
       <div className="blog-image">

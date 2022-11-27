@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Container } from "./styles";
 import Blog from "../../components/Common/Blog";
 import { getUserDetails } from "../../action";
+import moment from 'moment';
 
 const Index = (props) => {
   const navigate = useNavigate();
@@ -26,10 +27,9 @@ const Index = (props) => {
             <Blog
               key={blog._id}
               id={blog._id}
-              date={blog.date}
+              date={moment(blog.createdAt).format('Do MMM YY')}
               title={blog.title}
               category={blog.category}
-              description={blog.description}
               estimated={blog.estimated}
               brief={blog.brief}
               image={blog.image}
