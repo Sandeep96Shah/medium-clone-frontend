@@ -22,7 +22,7 @@ const Index = (props) => {
     <Container>
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Saved Blogs" key="1">
-          {blogs.map((blog) => (
+          {blogs.length > 0 ? (blogs.map((blog) => (
             <Blog
               key={blog._id}
               id={blog._id}
@@ -34,7 +34,9 @@ const Index = (props) => {
               image={blog.image}
               user={blog.user}
             />
-          ))}
+          ))) : (
+            <p  className="no-post">You haven't saved any blog!</p>
+          )}
         </Tabs.TabPane>
       </Tabs>
     </Container>
