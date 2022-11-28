@@ -53,7 +53,7 @@ export function createUser({ email, name, password, confirmPassword }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        const { status, message } = data || {};
+        const { status, message, error } = data || {};
         if (status === "success") {
           NotificationManager.success(
             "Now SignIn to continue!",
@@ -61,7 +61,13 @@ export function createUser({ email, name, password, confirmPassword }) {
             2000
           );
         } else {
-          NotificationManager.error(message, "Failed", 2000);
+          if (status === "validate-failure") {
+            error.forEach((err, index) => {
+              NotificationManager.error(err.msg, "Failed", (index + 2) * 1000);
+            });
+          } else {
+            NotificationManager.error(message, "Failed", 2000);
+          }
         }
       })
       .catch((error) => console.log("error", error));

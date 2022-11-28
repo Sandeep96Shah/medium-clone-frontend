@@ -10,7 +10,7 @@ const SignUp = (props) => {
     props.dispatch(
       createUser({
         name: values.name,
-        email: values.name,
+        email: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword,
       })
