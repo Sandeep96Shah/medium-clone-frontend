@@ -8,7 +8,9 @@ const Update = (props) => {
   const [fileList, setFileList] = useState();
   const onFinish = (values) => {
     const formData = new FormData();
-    formData.append("avatar", fileList[0]);
+    if(fileList && fileList.length) {
+      formData.append("avatar", fileList[0]);
+    }
     formData.append("userId", user._id);
     formData.append('name', values.name);
     dispatch(updateUserDetails({ formData }));
