@@ -14,7 +14,6 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const App = () => {
   const location = useLocation();
-  console.log("pathName", location.pathname);
   const isLayout = location.pathname !== "/";
   return (
     <>
@@ -26,7 +25,7 @@ const App = () => {
         {isLayout && <LeftSection />}
         <Routes>
           <Route exact path="/user" element={<UserHome />} />
-          <Route exact path="/blog-details" element={<BlogDetails />} />
+          <Route exact path="/blog-details/:id" element={<BlogDetails />} />
           <Route exact path="/create-blog" element={<CreateBlog />} />
           <Route exact path="/saved-blogs" element={<SavedBlogs />} />
           <Route exact path="/posted-blogs" element={<PostedBlogs />} />

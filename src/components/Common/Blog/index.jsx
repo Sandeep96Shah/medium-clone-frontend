@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
 import { FaRegBookmark } from "react-icons/fa";
 import { saveBlogRequest } from '../../../action';
+import { NotificationManager } from "react-notifications";
 
 const Index = (props) => {
   const {
@@ -12,22 +13,30 @@ const Index = (props) => {
     date,
     title,
     category,
-    description,
     estimated,
     brief,
     image,
     user,
     saveBlogRequestFn,
+    currentUser,
   } = props || {};
   const { name, avatar } = user || {};
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const handleClick = () => {
-    console.log("props", props);
-    navigate("/blog-details", { state: { details: props } });
+    if(!token) {
+      NotificationManager.info("please SignIn to view blog", "Info", 3000);
+    }else{
+      navigate(`/blog-details/${id}`, { state: { details: props } });
+    }
   };
 
   const handleSaveBlog = () => {
-    saveBlogRequestFn({ userId: user._id , blogId: id })
+    if(!token) {
+      NotificationManager.info("please SignIn to save blog", "Info", 3000);
+    }else{
+      saveBlogRequestFn({ userId: currentUser, blogId: id });
+    }
   }
   return (
     <PostContainer>
@@ -74,4 +83,11 @@ const Index = (props) => {
   );
 }
 
-export default connect(null, {saveBlogRequestFn: saveBlogRequest})(Index);
+const mapStateToProps = (state) => {
+  const { blogsDetails } = state || {};
+  const {user} = blogsDetails || {};
+  const { _id: currentUser } = user || {};
+  return {currentUser,}
+}
+
+export default connect(mapStateToProps, {saveBlogRequestFn: saveBlogRequest})(Index);

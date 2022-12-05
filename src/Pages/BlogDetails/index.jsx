@@ -7,7 +7,6 @@ export default function Index() {
   const location = useLocation();
   const { state } = location || {};
   const { details } = state || {};
-  console.log("details111", details);
   return (
     <Container>
       <BlogDetails details={details} />

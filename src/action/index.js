@@ -1,4 +1,13 @@
-import { SIGNIN, SIGNUP, CREATE_BLOG, SAVE_BLOG, ALL_BLOGS, USER_DETAILS } from "./types";
+import {
+  SIGNIN,
+  SIGNUP,
+  CREATE_BLOG,
+  SAVE_BLOG,
+  ALL_BLOGS,
+  USER_DETAILS,
+  BLOG_DETAILS,
+  UPDATE_USER_DETAILS,
+} from "./types";
 import { APIUrls } from "../helper/apis";
 import { getFormBody, getAuthTokenFromLocalStorage } from "../helper/utils";
 import { NotificationManager } from "react-notifications";
@@ -13,7 +22,6 @@ export function allBlogs(data) {
 export function fetchAllBlogs() {
   return (dispatch) => {
     const url = APIUrls.allBlogs();
-    console.log("url", url);
     fetch(url, {
       method: "GET",
       mode: "cors",
@@ -23,10 +31,10 @@ export function fetchAllBlogs() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         const { status } = data || {};
+        console.log("data", data?.data);
         if (status === "success") {
-          dispatch(allBlogs(data));
+          dispatch(allBlogs(data?.data));
         }
       })
       .catch((error) => console.log("error", error));
@@ -36,7 +44,6 @@ export function fetchAllBlogs() {
 export function createUser({ email, name, password, confirmPassword }) {
   return (dispatch) => {
     const url = APIUrls.signup();
-    console.log("url", url);
     fetch(url, {
       method: "POST",
       mode: "cors",
@@ -47,7 +54,7 @@ export function createUser({ email, name, password, confirmPassword }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        const { status, message } = data || {};
+        const { status, message, error } = data || {};
         if (status === "success") {
           NotificationManager.success(
             "Now SignIn to continue!",
@@ -55,7 +62,13 @@ export function createUser({ email, name, password, confirmPassword }) {
             2000
           );
         } else {
-          NotificationManager.error(message, "Failed", 2000);
+          if (status === "validate-failure") {
+            error.forEach((err, index) => {
+              NotificationManager.error(err.msg, "Failed", (index + 2) * 1000);
+            });
+          } else {
+            NotificationManager.error(message, "Failed", 2000);
+          }
         }
       })
       .catch((error) => console.log("error", error));
@@ -72,7 +85,6 @@ export function userDetails(data) {
 export function signinUser({ email, password, navigate }) {
   return (dispatch) => {
     const url = APIUrls.signin();
-    console.log("url", url);
     fetch(url, {
       method: "POST",
       mode: "cors",
@@ -83,7 +95,6 @@ export function signinUser({ email, password, navigate }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         const { status, message } = data || {};
         if (status === "success") {
           const { token } = data || {};
@@ -106,7 +117,6 @@ export function signinUser({ email, password, navigate }) {
 export function getUserDetails() {
   return (dispatch) => {
     const url = APIUrls.userDetails();
-    console.log("url", url);
     fetch(url, {
       method: "GET",
       mode: "cors",
@@ -117,10 +127,9 @@ export function getUserDetails() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data111", data);
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(userDetails(data));
+          dispatch(userDetails(data?.data));
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -139,7 +148,6 @@ export function saveBlog(data) {
 export function saveBlogRequest({ userId, blogId }) {
   return (dispatch) => {
     const url = APIUrls.saveBlog();
-    console.log("url", url);
     fetch(url, {
       method: "POST",
       mode: "cors",
@@ -151,15 +159,101 @@ export function saveBlogRequest({ userId, blogId }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(saveBlog(data));
-          NotificationManager.success(
-            "Blog saved!",
-            "Successful",
-            2000
-          );
+          dispatch(saveBlog(data?.data));
+          NotificationManager.success("Blog saved!", "Successful", 2000);
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}
+
+export function blogDetails(data) {
+  return {
+    type: BLOG_DETAILS,
+    data,
+  };
+}
+
+export function getBlogDetails({ id }) {
+  return (dispatch) => {
+    const url = APIUrls.blogDetails(id);
+    fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { status, message } = data || {};
+        if (status === "success") {
+          dispatch(blogDetails(data?.data));
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}
+
+export function createBlog({ formData, resetFields }) {
+  return (dispatch) => {
+    const url = APIUrls.createBlog();
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        //"Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { status, message } = data || {};
+        if (status === "success") {
+          //dispatch(blogDetails(data));
+          NotificationManager.success("Blog Posted!", "Successful", 2000);
+          resetFields();
+        } else {
+          NotificationManager.error(message, "Failed", 2000);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+}
+
+function updateUser(data) {
+  return {
+    type: UPDATE_USER_DETAILS,
+    data,
+  };
+}
+
+export function updateUserDetails({ formData }) {
+  return (dispatch) => {
+    const url = APIUrls.updateUserDetails();
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        //"Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { status, message } = data || {};
+        if (status === "success") {
+          dispatch(updateUser(data?.data));
+          NotificationManager.success("Profile Updated!", "Successful", 2000);
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }

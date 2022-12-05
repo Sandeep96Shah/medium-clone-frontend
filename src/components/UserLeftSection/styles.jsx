@@ -60,10 +60,14 @@ export const LeftSection = styled.div`
       height: 100%;
       border-radius: 50%;
       object-fit: fill;
+      cursor: pointer;
     }
   }
   a {
     color: grey;
+  }
+  .dropdown-option {
+    padding: 0 10px;
   }
 
   @media screen and (max-width: ${breakpoints.laptop}px) {

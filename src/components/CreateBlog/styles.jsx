@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-padding: 2rem 1rem;
+padding: 3rem 1rem;
 .title {
+  margin-bottom: 30px;
+}
+.category{
   margin-bottom: 30px;
 }
 .blog-image {
@@ -26,5 +29,10 @@ padding: 2rem 1rem;
   }
   .brief {
     margin-bottom: 40px;
+  }
+  button {
+    padding: 8px 12px;
+    font-size: 25px;
+    color: blue;
   }
 `;
