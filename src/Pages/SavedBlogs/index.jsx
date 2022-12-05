@@ -46,6 +46,7 @@ const Index = (props) => {
 const mapStateToProps = (state) => {
   const { blogsDetails } = state || {};
   const { savedBlogs } = blogsDetails || {};
+  console.log("savedBlogs", savedBlogs);
   return { blogs: savedBlogs };
 };
 

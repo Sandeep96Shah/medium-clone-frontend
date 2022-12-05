@@ -32,8 +32,9 @@ export function fetchAllBlogs() {
       .then((response) => response.json())
       .then((data) => {
         const { status } = data || {};
+        console.log("data", data?.data);
         if (status === "success") {
-          dispatch(allBlogs(data));
+          dispatch(allBlogs(data?.data));
         }
       })
       .catch((error) => console.log("error", error));
@@ -128,7 +129,7 @@ export function getUserDetails() {
       .then((data) => {
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(userDetails(data));
+          dispatch(userDetails(data?.data));
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -160,7 +161,7 @@ export function saveBlogRequest({ userId, blogId }) {
       .then((data) => {
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(saveBlog(data));
+          dispatch(saveBlog(data?.data));
           NotificationManager.success("Blog saved!", "Successful", 2000);
         } else {
           NotificationManager.error(message, "Failed", 2000);
@@ -192,7 +193,7 @@ export function getBlogDetails({ id }) {
       .then((data) => {
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(blogDetails(data));
+          dispatch(blogDetails(data?.data));
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -251,7 +252,7 @@ export function updateUserDetails({ formData }) {
       .then((data) => {
         const { status, message } = data || {};
         if (status === "success") {
-          dispatch(updateUser(data));
+          dispatch(updateUser(data?.data));
           NotificationManager.success("Profile Updated!", "Successful", 2000);
         } else {
           NotificationManager.error(message, "Failed", 2000);
