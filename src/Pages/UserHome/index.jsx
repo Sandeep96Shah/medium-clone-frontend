@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Container } from "./styles";
 import Blog from "../../components/Common/Blog";
 import { getUserDetails } from "../../action";
@@ -9,7 +9,10 @@ import moment from 'moment';
 
 const Index = (props) => {
   const navigate = useNavigate();
-  const { blogs = [], dispatch } = props || {};
+
+  const blogs = useSelector((state) => ( state.blogsDetails.blogs ));
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,8 +34,8 @@ const Index = (props) => {
               title={blog.title}
               category={blog.category}
               estimated={blog.estimated}
-              brief={blog.brief}
-              image={blog.image}
+              description={blog.description}
+              blogImage={blog.blogImage}
               user={blog.user}
             />
           ))}
@@ -62,4 +65,4 @@ const mapStateToProps = (state) => {
   const { blogs } = blogsDetails || {};
   return { blogs };
 };
-export default connect(mapStateToProps)(Index);
+export default Index;

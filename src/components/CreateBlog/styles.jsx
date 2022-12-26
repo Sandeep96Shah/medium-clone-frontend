@@ -34,5 +34,7 @@ padding: 3rem 1rem;
     padding: 8px 12px;
     font-size: 25px;
     color: blue;
+    margin-top: 10px;
+    cursor:pointer;
   }
 `;

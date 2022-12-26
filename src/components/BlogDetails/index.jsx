@@ -4,12 +4,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { BlogDetails } from "./styles";
 import Divider from "../Common/Divider";
 import { getBlogDetails } from "../../action";
-import moment from 'moment';
+import moment from "moment";
 
 const Index = (props) => {
-  const { blogDetails } = props || {};
-  const { title, brief, description, image, category, estimated, user, createdAt } =
-    blogDetails || {};
+  const { blogDetails, getBlogDetailsFn } = props || {};
+  const {
+    title,
+    description,
+    blogImage,
+    category,
+    estimated = 2,
+    user,
+    createdAt,
+  } = blogDetails || {};
   const { name, avatar } = user || {};
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,14 +28,17 @@ const Index = (props) => {
     } else {
       const { pathname } = location;
       const blogId = pathname.substring(pathname.lastIndexOf("/") + 1);
-      props.dispatch(getBlogDetails({ id: blogId }));
+      getBlogDetailsFn({ id: blogId })
     }
   }, []);
   return (
     <BlogDetails>
       <div className="user-info">
         <div className="avatar">
-          <img src={avatar} alt="avatar" />
+          <img
+            src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${avatar}`}
+            alt="avatar"
+          />
         </div>
         <div className="info">
           <div className="name-follow">
@@ -36,30 +46,32 @@ const Index = (props) => {
             {/* <p className="follow">Follow</p> */}
           </div>
           <div className="blog-time">
-            <p className="time">{moment(createdAt).format('Do MMM YY')}</p>
+            <p className="time">{moment(createdAt).format("Do MMM YY")}</p>
             <p className="read-time">{estimated}</p>
           </div>
         </div>
       </div>
       <div className="category">
-      <p>{category}</p>
+        <p>{category}</p>
       </div>
       <div className="title">
         <p>{title}</p>
       </div>
       <Divider />
-      <div className="image">
-        <img src={image} alt="blog-poster" />
-      </div>
-      <Divider />
-      <div className="brief">
-        <p>{brief}</p>
-      </div>
-      <Divider />
+      {blogImage ? (
+        <>
+          <div className="image">
+            <img
+              src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${blogImage}`}
+              alt="blog-poster"
+            />
+          </div>
+          <Divider />
+        </>
+      ) : null}
       <div className="content">
         <p>{description}</p>
       </div>
-      <Divider />
     </BlogDetails>
   );
 };
@@ -70,4 +82,6 @@ const mapStateToProps = (state) => {
   return { blogDetails };
 };
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, {
+  getBlogDetailsFn: getBlogDetails,
+})(Index);

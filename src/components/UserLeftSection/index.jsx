@@ -3,7 +3,6 @@ import { Tooltip, Dropdown, Menu, Modal } from "antd";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LeftSection } from "./styles";
-import logo from "../../assets/user-logo.png";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegClone, FaRegEdit, FaRegFileAlt } from "react-icons/fa";
 import Update from "../../components/Form/update";
@@ -39,10 +38,14 @@ const Index = (props) => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <p onClick={showUpdateModal} className="dropdown-option">Profile</p>
+        <p onClick={showUpdateModal} className="dropdown-option">
+          Profile
+        </p>
       </Menu.Item>
       <Menu.Item>
-        <p onClick={handleLogout} className="dropdown-option">Logout</p>
+        <p onClick={handleLogout} className="dropdown-option">
+          Logout
+        </p>
       </Menu.Item>
     </Menu>
   );
@@ -59,7 +62,10 @@ const Index = (props) => {
       </Modal>
       <div className="logo" onClick={() => handleSelectedOption("home")}>
         <Link to="/user">
-          <img src={logo} alt="Logo" />
+          <img
+            src="https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/63a0279c36721ab595d78684/74eb45e0-8505-11ed-b264-bb71e2709c3e.jpeg"
+            alt="Logo"
+          />
         </Link>
       </div>
       <div className="options">
@@ -106,7 +112,10 @@ const Index = (props) => {
       </div>
       <Dropdown overlay={menu} placement="topRight">
         <div className="user">
-          <img src={avatar} alt="poster" />
+          <img
+            src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${avatar}`}
+            alt="poster"
+          />
         </div>
       </Dropdown>
     </LeftSection>

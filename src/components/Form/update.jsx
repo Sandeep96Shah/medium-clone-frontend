@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input, Upload } from "antd";
-import { updateUserDetails } from "../../action";
+import { updateUserDetails, getSignedUrl } from "../../action";
 
 const Update = (props) => {
   const { handleOk, name, avatar, dispatch, user } = props;
   const [fileList, setFileList] = useState();
   const onFinish = (values) => {
-    const formData = new FormData();
-    if(fileList && fileList.length) {
-      formData.append("avatar", fileList[0]);
+    if (fileList && fileList.length) {
+      const updatedData = {
+        name: values.name,
+        image: fileList[0],
+      };
+      dispatch(getSignedUrl({ updatedData }));
+    } else {
+      const updatedData = {
+        name: values.name,
+      };
+      dispatch(updateUserDetails({ updatedData }));
     }
-    formData.append("userId", user._id);
-    formData.append('name', values.name);
-    dispatch(updateUserDetails({ formData }));
     handleOk();
   };
   const onFinishFailed = (errorInfo) => {

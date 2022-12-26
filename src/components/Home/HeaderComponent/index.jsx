@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
-import logo from "../../../assets/logo.png";
 import SignIn from "../../Form/signin";
 import SignUp from "../../Form/signup";
 import { HeaderContainer } from "./styles";
@@ -68,7 +67,10 @@ export default function Header() {
           <SignIn handleOk={handleSignInOk} showSignUpModal={showSignUpModal} />
         </Modal>
         <div className="logo">
-          <img src={logo} alt="logo" />
+          <img
+            src="https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/63a0279c36721ab595d78684/07b73010-8505-11ed-b264-bb71e2709c3e.jpeg"
+            alt="logo"
+          />
         </div>
         <div className="get-started-container">
           <div className="sign-in" onClick={showSignInModal}>

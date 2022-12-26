@@ -4,7 +4,7 @@ import { Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PostContainer } from "./styles";
 import { FaRegBookmark } from "react-icons/fa";
-import { saveBlogRequest } from '../../../action';
+import { saveBlogRequest } from "../../../action";
 import { NotificationManager } from "react-notifications";
 
 const Index = (props) => {
@@ -13,36 +13,38 @@ const Index = (props) => {
     date,
     title,
     category,
-    estimated,
-    brief,
-    image,
+    estimated = 2,
+    description,
+    blogImage,
     user,
     saveBlogRequestFn,
-    currentUser,
   } = props || {};
   const { name, avatar } = user || {};
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const handleClick = () => {
-    if(!token) {
+    if (!token) {
       NotificationManager.info("please SignIn to view blog", "Info", 3000);
-    }else{
+    } else {
       navigate(`/blog-details/${id}`, { state: { details: props } });
     }
   };
 
   const handleSaveBlog = () => {
-    if(!token) {
+    if (!token) {
       NotificationManager.info("please SignIn to save blog", "Info", 3000);
-    }else{
-      saveBlogRequestFn({ userId: currentUser, blogId: id });
+    } else {
+      saveBlogRequestFn({ blogId: id });
     }
-  }
+  };
   return (
     <PostContainer>
       <div className="author">
         <div className="avatar">
-          <img src={avatar} alt="profile-pic" />
+          <img
+            src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${avatar}`}
+            alt="profile-pic"
+          />
         </div>
         <div className="name">
           <p>{name}</p>
@@ -57,12 +59,17 @@ const Index = (props) => {
             <p>{title}</p>
           </div>
           <div className="brief">
-            <p>{brief}</p>
+            <p>{description}</p>
           </div>
         </div>
-        <div className="post-image">
-          <img src={image} alt="blog" />
-        </div>
+        {blogImage ? (
+          <div className="post-image">
+            <img
+              src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${blogImage}`}
+              alt="blog"
+            />
+          </div>
+        ) : null}
       </div>
       <div className="post-info">
         <div className="category-estimated">
@@ -81,13 +88,15 @@ const Index = (props) => {
       </div>
     </PostContainer>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   const { blogsDetails } = state || {};
-  const {user} = blogsDetails || {};
+  const { user } = blogsDetails || {};
   const { _id: currentUser } = user || {};
-  return {currentUser,}
-}
+  return { currentUser };
+};
 
-export default connect(mapStateToProps, {saveBlogRequestFn: saveBlogRequest})(Index);
+export default connect(mapStateToProps, { saveBlogRequestFn: saveBlogRequest })(
+  Index
+);

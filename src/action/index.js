@@ -1,7 +1,4 @@
 import {
-  SIGNIN,
-  SIGNUP,
-  CREATE_BLOG,
   SAVE_BLOG,
   ALL_BLOGS,
   USER_DETAILS,
@@ -11,6 +8,7 @@ import {
 import { APIUrls } from "../helper/apis";
 import { getFormBody, getAuthTokenFromLocalStorage } from "../helper/utils";
 import { NotificationManager } from "react-notifications";
+import axios from "axios";
 
 export function allBlogs(data) {
   return {
@@ -29,11 +27,10 @@ export function fetchAllBlogs() {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status } = data || {};
-        console.log("data", data?.data);
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        if (status === 200) {
           dispatch(allBlogs(data?.data));
         }
       })
@@ -52,17 +49,18 @@ export function createUser({ email, name, password, confirmPassword }) {
       },
       body: getFormBody({ email, name, password, confirmPassword }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message, error } = data || {};
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message, data: error } = data || {};
+        if (status === 200) {
           NotificationManager.success(
             "Now SignIn to continue!",
             "Successful",
             2000
           );
         } else {
-          if (status === "validate-failure") {
+          if (status === 404) {
             error.forEach((err, index) => {
               NotificationManager.error(err.msg, "Failed", (index + 2) * 1000);
             });
@@ -93,11 +91,12 @@ export function signinUser({ email, password, navigate }) {
       },
       body: getFormBody({ email, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
-          const { token } = data || {};
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
+          const { token } = data?.data || {};
           localStorage.setItem("token", token);
           //dispatch(userDetails(data));
           navigate("/user");
@@ -125,10 +124,11 @@ export function getUserDetails() {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
           dispatch(userDetails(data?.data));
         } else {
           NotificationManager.error(message, "Failed", 2000);
@@ -145,7 +145,7 @@ export function saveBlog(data) {
   };
 }
 
-export function saveBlogRequest({ userId, blogId }) {
+export function saveBlogRequest({ blogId }) {
   return (dispatch) => {
     const url = APIUrls.saveBlog();
     fetch(url, {
@@ -155,12 +155,13 @@ export function saveBlogRequest({ userId, blogId }) {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: getFormBody({ userId, blogId }),
+      body: getFormBody({ blogId }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
           dispatch(saveBlog(data?.data));
           NotificationManager.success("Blog saved!", "Successful", 2000);
         } else {
@@ -189,10 +190,11 @@ export function getBlogDetails({ id }) {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
           dispatch(blogDetails(data?.data));
         } else {
           NotificationManager.error(message, "Failed", 2000);
@@ -202,25 +204,25 @@ export function getBlogDetails({ id }) {
   };
 }
 
-export function createBlog({ formData, resetFields }) {
+export function createBlog({ updatedData }) {
   return (dispatch) => {
     const url = APIUrls.createBlog();
     fetch(url, {
       method: "POST",
       mode: "cors",
       headers: {
-        //"Content-Type": "multipart/form-data",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: formData,
+      body: getFormBody(updatedData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
-          //dispatch(blogDetails(data));
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
+          // dispatch(blogDetails(data));
           NotificationManager.success("Blog Posted!", "Successful", 2000);
-          resetFields();
         } else {
           NotificationManager.error(message, "Failed", 2000);
         }
@@ -236,22 +238,23 @@ function updateUser(data) {
   };
 }
 
-export function updateUserDetails({ formData }) {
+export function updateUserDetails({ updatedData }) {
   return (dispatch) => {
     const url = APIUrls.updateUserDetails();
     fetch(url, {
       method: "POST",
       mode: "cors",
       headers: {
-        //"Content-Type": "multipart/form-data",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: formData,
+      body: getFormBody(updatedData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        const { status, message } = data || {};
-        if (status === "success") {
+      .then(async (response) => {
+        const data = await response.json();
+        const status = response.status;
+        const { message } = data || {};
+        if (status === 200) {
           dispatch(updateUser(data?.data));
           NotificationManager.success("Profile Updated!", "Successful", 2000);
         } else {
@@ -259,5 +262,40 @@ export function updateUserDetails({ formData }) {
         }
       })
       .catch((error) => console.log("error", error));
+  };
+}
+
+export function getSignedUrl({ updatedData, type }) {
+  return (dispatch) => {
+    const url = APIUrls.getSignedUrl();
+    fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        const { url, key } = data || {};
+        const status = response.status;
+        if (status === 200) {
+          axios.put(url, updatedData.image, {
+            headers: {
+              "Content-Type": updatedData.image.type,
+            },
+          });
+          if (type === "blog") {
+            updatedData.blogImage = key;
+            dispatch(createBlog({ updatedData }));
+          } else {
+            updatedData.avatar = key;
+            dispatch(updateUserDetails({ updatedData }));
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
 }

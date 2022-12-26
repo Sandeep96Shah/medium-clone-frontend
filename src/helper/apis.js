@@ -1,4 +1,4 @@
-const API_ROOT = 'http://localhost:8000';
+const API_ROOT = 'http://65.2.39.219';
 
 export const APIUrls = {
     allBlogs: () => `${API_ROOT}/`,
@@ -9,4 +9,5 @@ export const APIUrls = {
     createBlog: () => `${API_ROOT}/create-blog`,
     updateUserDetails: () => `${API_ROOT}/update-user`,
     saveBlog: () => `${API_ROOT}/save-blog`,
+    getSignedUrl: () => `${API_ROOT}/api/upload`,
 }

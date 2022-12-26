@@ -8,10 +8,10 @@ import { fetchAllBlogs } from '../../action';
 import moment from 'moment';
 
 const Index = (props) => {
+  const { blogs, fetchAllBlogsFn } = props;
   useEffect(() => {
-    props.dispatch(fetchAllBlogs());
+    fetchAllBlogsFn();
   },[]);
-  const { blogs } = props;
   return (
     <div>
       <Header />
@@ -25,8 +25,8 @@ const Index = (props) => {
             title={blog.title}
             category={blog.category}
             estimated={blog.estimated}
-            brief={blog.brief}
-            image={blog.image}
+            description={blog.description}
+            blogImage={blog.blogImage}
             user={blog.user}
           />
         ))}
@@ -43,4 +43,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, {
+  fetchAllBlogsFn: fetchAllBlogs,
+})(Index);

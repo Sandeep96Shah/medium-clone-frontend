@@ -5,16 +5,14 @@ import { createUser } from "../../action";
 import { Container } from "./styles";
 
 const SignUp = (props) => {
-  const { handleOk, showSignInModal } = props;
+  const { handleOk, showSignInModal, createUserFn } = props;
   const onFinish = (values) => {
-    props.dispatch(
-      createUser({
+      createUserFn({
         name: values.name,
         email: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword,
       })
-    );
     handleOk();
   };
   const onFinishFailed = (errorInfo) => {
@@ -99,4 +97,6 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps, {
+  createUserFn: createUser,
+})(SignUp);

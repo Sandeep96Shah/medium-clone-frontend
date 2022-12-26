@@ -9,13 +9,13 @@ import moment from 'moment';
 
 const Index = (props) => {
   const navigate = useNavigate();
-  const { blogs = [], dispatch } = props || {};
+  const { blogs = [], getUserDetailsFn } = props || {};
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/");
     } else {
-      dispatch(getUserDetails());
+      getUserDetailsFn();
     }
   }, []);
   return (
@@ -30,8 +30,8 @@ const Index = (props) => {
               title={blog.title}
               category={blog.category}
               estimated={blog.estimated}
-              brief={blog.brief}
-              image={blog.image}
+              description={blog.description}
+              blogImage={blog.blogImage}
               user={blog.user}
             />
           ))) : (
@@ -46,8 +46,9 @@ const Index = (props) => {
 const mapStateToProps = (state) => {
   const { blogsDetails } = state || {};
   const { savedBlogs } = blogsDetails || {};
-  console.log("savedBlogs", savedBlogs);
   return { blogs: savedBlogs };
 };
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, {
+  getUserDetailsFn: getUserDetails,
+})(Index);

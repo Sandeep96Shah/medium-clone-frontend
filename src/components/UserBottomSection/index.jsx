@@ -82,7 +82,7 @@ const Index =  (props) => {
         placement="topRight"
       >
         <div className="user">
-          <img src={avatar} alt="poster" />
+          <img src={`https://medium-blog-bucket.s3.ap-south-1.amazonaws.com/${avatar}`} alt="poster" />
         </div>
       </Dropdown>
     </Container>

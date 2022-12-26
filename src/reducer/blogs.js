@@ -31,8 +31,8 @@ export default function blogs(state = initialState, action) {
       return {
         ...state,
         user: data.user,
-        savedBlogs: data?.savedBlogs?.blogs || [],
-        postedBlogs: data?.postedBlogs.blogs || [],
+        savedBlogs: data?.user?.savedBlogs || [],
+        postedBlogs: data?.user?.postedBlogs || [],
         blogs: data?.blogs,
       };
     case CREATE_BLOG:
@@ -43,7 +43,7 @@ export default function blogs(state = initialState, action) {
     case SAVE_BLOG:
       return {
         ...state,
-        savedBlogs: data.savedList.blogs,
+        savedBlogs: data?.user?.savedBlogs,
       };
     case BLOG_DETAILS:
       return {

@@ -2,42 +2,43 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container } from "./styles";
-import { createBlog } from "../../action";
-import { getUserDetails } from "../../action";
+import { createBlog, getUserDetails, getSignedUrl } from "../../action";
 
 const Index = (props) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-  const [brief, setBrief] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const { dispatch, user } = props;
+  const [category, setCategory] = useState();
+  const { user, createBlogFn, getUserDetailsFn, getSignedUrlFn } = props;
 
-  const resetFields = () => {
-    setTitle("");
-    setImage(null);
-    setBrief("");
-    setDescription("");
-  };
   const handleSubmitPost = () => {
-    // need to add check that all the fields are required
 
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("title", title);
-    formData.append("brief", brief);
-    formData.append("category", category);
-    formData.append("description", description);
-    formData.append("user", user._id);
-    dispatch(createBlog({ formData, resetFields }));
+    if (image) {
+      const updatedData = {
+        image,
+        title,
+        category,
+        description,
+        userId: user._id,
+      };
+      getSignedUrlFn({ updatedData, type: 'blog' });
+    } else {
+      const updatedData = {
+        title,
+        category,
+        description,
+        userId: user._id,
+      };
+      createBlogFn({ updatedData })
+    }
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/");
     } else {
-      dispatch(getUserDetails());
+      getUserDetailsFn();
     }
   }, []);
   return (
@@ -68,22 +69,12 @@ const Index = (props) => {
           onChange={(e) => setImage(e.target.files[0])}
         />
       </div>
-      <div className="brief">
-        <textarea
-          name="brief"
-          id="brief"
-          cols="30"
-          rows="7"
-          placeholder="Briefly Describe your blog"
-          onChange={(e) => setBrief(e.target.value)}
-        ></textarea>
-      </div>
       <div className="description">
         <textarea
           name="description"
           id="description"
           cols="30"
-          rows="40"
+          rows="20"
           placeholder="Write about your blog in details"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
@@ -101,4 +92,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, {
+  createBlogFn: createBlog,
+  getUserDetailsFn: getUserDetails,
+  getSignedUrlFn: getSignedUrl,
+})(Index);

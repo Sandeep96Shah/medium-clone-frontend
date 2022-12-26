@@ -6,16 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "./styles";
 
 const SignUp = (props) => {
-  const { handleOk, showSignUpModal } = props;
+  const { handleOk, showSignUpModal, signinUserFn } = props;
   const navigate = useNavigate();
   const onFinish = (values) => {
-    props.dispatch(
-      signinUser({
+      signinUserFn({
         email: values.email,
         password: values.password,
         navigate,
       })
-    );
     handleOk();
   };
   const onFinishFailed = (errorInfo) => {
@@ -75,4 +73,6 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps, {
+  signinUserFn: signinUser,
+})(SignUp);
