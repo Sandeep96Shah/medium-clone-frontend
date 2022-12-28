@@ -1,4 +1,4 @@
-const API_ROOT = 'http://65.2.39.219';
+const API_ROOT = 'https://dev.sandeepshah.in.net';
 
 export const APIUrls = {
     allBlogs: () => `${API_ROOT}/`,
