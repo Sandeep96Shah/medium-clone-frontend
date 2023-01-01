@@ -26,7 +26,7 @@ const Index = (props) => {
     if (!token) {
       NotificationManager.info("please SignIn to view blog", "Info", 3000);
     } else {
-      navigate(`/blog-details/${id}`, { state: { details: props } });
+      navigate(`/blog-details/${id}`);
     }
   };
 
