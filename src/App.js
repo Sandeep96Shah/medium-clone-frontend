@@ -24,11 +24,11 @@ const App = () => {
       <UserContainer>
         {isLayout && <LeftSection />}
         <Routes>
-          <Route exact path="/user" element={<UserHome />} />
-          <Route exact path="/blog-details/:id" element={<BlogDetails />} />
-          <Route exact path="/create-blog" element={<CreateBlog />} />
-          <Route exact path="/saved-blogs" element={<SavedBlogs />} />
-          <Route exact path="/posted-blogs" element={<PostedBlogs />} />
+          <Route path="/user" element={<UserHome />} />
+          <Route path="/blog-details/:id" element={<BlogDetails />} />
+          <Route path="/create-blog" element={<CreateBlog />} />
+          <Route path="/saved-blogs" element={<SavedBlogs />} />
+          <Route path="/posted-blogs" element={<PostedBlogs />} />
         </Routes>
         {isLayout && <RightSection />}
         {isLayout && <BottomSection />}
